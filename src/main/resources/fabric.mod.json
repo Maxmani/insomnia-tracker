@@ -15,6 +15,11 @@
 	"license": "MIT-0",
 	"icon": "assets/insomniatracker/icon.png",
 	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.reimaden.insomniatracker.InsomniaTracker"
+		]
+	},
 	"mixins": [
 		"insomniatracker.mixins.json"
 	],

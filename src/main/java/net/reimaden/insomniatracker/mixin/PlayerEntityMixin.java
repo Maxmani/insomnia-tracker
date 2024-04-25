@@ -7,6 +7,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import net.reimaden.insomniatracker.InsomniaTracker;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,7 +39,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         int timeSinceRest = ((ServerPlayerEntity) (Object) this)
                 .getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST));
         // Send this message only once while not in bed
-        if (timeSinceRest == 72000) {
+        if (timeSinceRest == InsomniaTracker.getTicksUntilPhantoms()) {
             this.sendMessage(Text.translatable("insomnia.tired"), true);
         }
     }
