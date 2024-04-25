@@ -2,6 +2,8 @@ package net.reimaden.insomniatracker;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.world.GameRules;
 
 public class InsomniaTracker implements ModInitializer {
 
@@ -23,5 +25,9 @@ public class InsomniaTracker implements ModInitializer {
         if (FabricLoader.getInstance().isModLoaded("phantomredux")) {
             setTicksUntilPhantoms(96000);
         }
+    }
+
+    public static boolean arePhantomsDisabled(ServerWorld world) {
+        return !world.getGameRules().getBoolean(GameRules.DO_INSOMNIA);
     }
 }

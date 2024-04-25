@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
@@ -35,6 +36,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             )
     )
     private void insomniatracker$notifyPlayerTired(CallbackInfo ci) {
+        if (InsomniaTracker.arePhantomsDisabled((ServerWorld) this.getWorld())) return;
+
         //noinspection DataFlowIssue
         int timeSinceRest = ((ServerPlayerEntity) (Object) this)
                 .getStatHandler().getStat(Stats.CUSTOM.getOrCreateStat(Stats.TIME_SINCE_REST));
@@ -53,6 +56,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             )
     )
     private void insomniatracker$notifyPlayerRestedInBed(CallbackInfo ci) {
+        if (!(this.getWorld() instanceof ServerWorld world) || InsomniaTracker.arePhantomsDisabled(world)) return;
+
         // Send this message only once while in bed
         if (this.getSleepTimer() == 99) {
             this.sendMessage(Text.translatable("insomnia.rested"), true);
@@ -68,6 +73,8 @@ public abstract class PlayerEntityMixin extends LivingEntity {
             )
     )
     private void insomniatracker$notifyPlayerRestedOnWakeUp(boolean skipSleepTimer, boolean updateSleepingPlayers, CallbackInfo ci) {
+        if (InsomniaTracker.arePhantomsDisabled((ServerWorld) this.getWorld())) return;
+
         // Send this message if the bed is left before the above message is sent
         if (this.getSleepTimer() < 100) {
             this.sendMessage(Text.translatable("insomnia.rested"), true);
